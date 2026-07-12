@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MSILab maskable icon">
+  <defs>
+    <linearGradient id="maskable-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#14b8a6" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#maskable-bg)" />
+  <rect x="88" y="88" width="336" height="336" rx="84" fill="#08111f" opacity="0.88" />
+  <path d="M168 334V178h49l39 83 40-83h48v156h-36v-86l-30 63h-43l-30-63v86h-37z" fill="#d8f8f2" />
+</svg>
