@@ -65,7 +65,7 @@ jobs:
               curl -H "Title: Déploiement réussi ✅" \
                   -H "Priority: default" \
                   -H "Tags: white_check_mark" \
-                  -d "Nouvelle version de ${{ github.repository }} déployée sur https://https://yroffin.github.io/msilab-app/. Commit: ${{ github.sha }}" \
+                  -d "Nouvelle version de ${{ github.repository }} déployée sur https://yroffin.github.io/msilab-app/. Commit: ${{ github.sha }}" \
                   "ntfy.sh/$NTFY_TOPIC"
             else
               curl -H "Title: Déploiement échoué ❌" \
