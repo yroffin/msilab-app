@@ -51,3 +51,26 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  notify:
+      needs: deploy
+      runs-on: ubuntu-latest
+      if: always()
+      steps:
+        - name: Notify via ntfy.sh
+          env:
+            NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          run: |
+            if [ "${{ needs.deploy.result }}" = "success" ]; then
+              curl -H "Title: Déploiement réussi ✅" \
+                  -H "Priority: default" \
+                  -H "Tags: white_check_mark" \
+                  -d "Nouvelle version de ${{ github.repository }} déployée sur https://https://yroffin.github.io/msilab-app/. Commit: ${{ github.sha }}" \
+                  "ntfy.sh/$NTFY_TOPIC"
+            else
+              curl -H "Title: Déploiement échoué ❌" \
+                  -H "Priority: urgent" \
+                  -H "Tags: x" \
+                  -d "Le déploiement de ${{ github.repository }} a échoué. Voir: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+                  "ntfy.sh/$NTFY_TOPIC"
+            fi
