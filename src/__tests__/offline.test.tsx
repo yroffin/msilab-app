@@ -4,6 +4,17 @@ import { MemoryRouter } from 'react-router-dom';
 import PublicPage from '../presentation/pages/PublicPage';
 import PrivateRoute from '../presentation/components/PrivateRoute';
 import MembersPage from '../presentation/pages/MembersPage';
+import { PublicNewsProvider } from '../presentation/providers/public-news-provider';
+
+function renderPublicPage() {
+  return render(
+    <MemoryRouter>
+      <PublicNewsProvider listPublicNews={async () => []}>
+        <PublicPage />
+      </PublicNewsProvider>
+    </MemoryRouter>
+  );
+}
 
 /**
  * Offline non-regression tests for the public zone.
@@ -13,22 +24,19 @@ import MembersPage from '../presentation/pages/MembersPage';
  */
 describe('Public zone — offline non-regression', () => {
   it('renders public page without session or network', () => {
-    render(
-      <MemoryRouter>
-        <PublicPage />
-      </MemoryRouter>
-    );
+    renderPublicPage();
     expect(screen.getByText('MSILab App')).toBeInTheDocument();
   });
 
   it('shows offline-friendly messaging', () => {
-    render(
-      <MemoryRouter>
-        <PublicPage />
-      </MemoryRouter>
-    );
+    renderPublicPage();
     const matches = screen.getAllByText(/hors-ligne/i);
     expect(matches.length).toBeGreaterThan(0);
+  });
+
+  it('shows an empty state when no news are available', async () => {
+    renderPublicPage();
+    expect(await screen.findByText('Aucune news disponible.')).toBeInTheDocument();
   });
 });
 

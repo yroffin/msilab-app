@@ -249,6 +249,31 @@ h2 {
   font-size: var(--type-sm);
 }
 
+.news-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.news-item {
+  display: grid;
+  gap: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.news-item h3 {
+  margin: 0;
+  font-size: var(--type-base);
+  color: var(--text-primary);
+}
+
+.news-meta,
+.news-state {
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+}
+
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 720px) {

@@ -31,6 +31,8 @@ export const PRIVATE_PATHS = [
  */
 export const PUBLIC_PATHS = ['/', '/index.html'];
 
+export const PUBLIC_POCKETBASE_NEWS_PATHS = ['/api/collections/news/'];
+
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
 
@@ -59,6 +61,19 @@ registerRoute(
   ({ request, url }) => request.method === 'GET' && url.origin === self.location.origin,
   new StaleWhileRevalidate({
     cacheName: 'public-static'
+  })
+);
+
+registerRoute(
+  ({ request, url }) => {
+    if (request.method !== 'GET') {
+      return false;
+    }
+
+    return PUBLIC_POCKETBASE_NEWS_PATHS.some((path) => url.pathname.startsWith(path));
+  },
+  new StaleWhileRevalidate({
+    cacheName: 'public-pocketbase-news'
   })
 );
 

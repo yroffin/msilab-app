@@ -1,8 +1,4 @@
-## Purpose
-
-Définir les exigences de disponibilité hors-ligne pour la zone publique de la PWA MSILab, y compris la mise en cache initiale et la mise à jour du contenu public par le Service Worker.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Public content remains available offline
 The system SHALL provide the public association pages and project news in offline mode after a successful first load, including PocketBase-backed news data once it has been retrieved successfully.

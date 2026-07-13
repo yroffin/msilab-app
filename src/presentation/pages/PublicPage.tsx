@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { usePublicNews } from '../hooks/use-public-news';
 
 export default function PublicPage() {
+  const { items, isLoading, error } = usePublicNews();
+
   return (
     <main className="page-shell">
       <section className="hero card">
@@ -26,6 +29,33 @@ export default function PublicPage() {
             Contenu mis en cache par le Service Worker, consultable sans
             connexion après le premier chargement.
           </p>
+
+          <div className="news-list" aria-live="polite">
+            <p className="eyebrow">News</p>
+
+            {isLoading && items.length === 0 ? (
+              <p className="news-state">Chargement des news...</p>
+            ) : null}
+
+            {error !== null ? (
+              <p className="news-state">
+                Donnees locales affichees. Synchronisation distante indisponible.
+              </p>
+            ) : null}
+
+            {!isLoading && items.length === 0 ? (
+              <p className="news-state">Aucune news disponible.</p>
+            ) : null}
+
+            {items.map((item) => (
+              <article key={item.id} className="news-item">
+                <h3>{item.title}</h3>
+                <p className="news-meta">
+                  Mis a jour le {new Date(item.updated).toLocaleDateString('fr-FR')}
+                </p>
+              </article>
+            ))}
+          </div>
         </article>
 
         <article className="card">

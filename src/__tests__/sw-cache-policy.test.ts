@@ -19,7 +19,11 @@ vi.mock('workbox-strategies', () => ({
   StaleWhileRevalidate: vi.fn()
 }));
 
-import { PRIVATE_PATHS, PUBLIC_PATHS } from '../infrastructure/sw/sw';
+import {
+  PRIVATE_PATHS,
+  PUBLIC_PATHS,
+  PUBLIC_POCKETBASE_NEWS_PATHS
+} from '../infrastructure/sw/sw';
 
 /**
  * Verifies that the Service Worker cache partitioning constants enforce the
@@ -79,5 +83,10 @@ describe('SW cache policy — PUBLIC_PATHS', () => {
   it('public static assets are not blocked', () => {
     expect(isPrivate('/assets/index-abc123.js')).toBe(false);
     expect(isPrivate('/icons/icon.svg')).toBe(false);
+  });
+
+  it('declares public PocketBase news paths separately from private paths', () => {
+    expect(PUBLIC_POCKETBASE_NEWS_PATHS).toContain('/api/collections/news/');
+    expect(isPrivate('/api/collections/news/records')).toBe(false);
   });
 });

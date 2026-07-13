@@ -30,7 +30,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate PocketBase URL configuration
+        env:
+          VITE_POCKETBASE_URL: ${{ secrets.VITE_POCKETBASE_URL || vars.VITE_POCKETBASE_URL }}
+        run: |
+          if [ -z "$VITE_POCKETBASE_URL" ]; then
+            echo "::error::Missing required environment variable VITE_POCKETBASE_URL in GitHub Secrets or Variables."
+            exit 1
+          fi
+
       - name: Build
+        env:
+          VITE_POCKETBASE_URL: ${{ secrets.VITE_POCKETBASE_URL || vars.VITE_POCKETBASE_URL }}
         run: npm run build
 
       - name: Setup Pages

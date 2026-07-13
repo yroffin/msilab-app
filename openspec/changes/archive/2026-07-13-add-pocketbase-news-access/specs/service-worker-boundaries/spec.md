@@ -1,8 +1,4 @@
-## Purpose
-
-Définir les règles de partitionnement de cache du Service Worker : le contenu public statique peut être mis en cache offline, les endpoints membres/authentifiés et les données de session ne doivent jamais transiter par le cache partagé.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Authenticated endpoints are excluded from shared cache
 The system SHALL prevent Service Worker cache storage of authenticated API responses, session tokens, private member content, and authenticated PocketBase endpoints.

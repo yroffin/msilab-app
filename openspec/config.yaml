@@ -10,6 +10,9 @@ context: |
       bundler: Vite
       framework: React (18+)
       pwd: Service Worker via vite-plugin-pwa
+  - Backend de données (non géré dans ce projet) :
+      produit: PocketBase
+      modèle de donnée: décrit dans les specs data-model
   - Backend : (desactivé)
       langage: Go (net/http)
       network: API HTTP + endpoint SSE for real time
@@ -63,8 +66,19 @@ rules:
   design:
     - Documenter dans quelle couche (domain/application/infrastructure/presentation) chaque nouvel élément se situe
     - Vérifier la compatibilité TinyGo de toute nouvelle dépendance Go si le module WASM est concerné
+    # PocketBase
+    - Tout accès aux données PocketBase passe par un port défini dans domain/ports/, jamais d'appel SDK direct hors infrastructure/
+    - Un repository = une collection PocketBase (NewsRepository ↔ news)
+    - Chaque repository implémente l'interface de son port correspondant dans domain/ports/
   tasks:
     - Grouper les tâches par couche d'architecture
   apply:
     - Ne jamais faire fuiter le token de session dans le cache du Service Worker
     - Ne jamais mettre en cache le flux SSE
+    # PocketBase
+    - l'URL d'accès du client PocketBase est une variable d'env avec une valeur par défaut pour la production : https://foo.bar
+    - Le client PocketBase (infrastructure/pocketbase/client.ts) est un singleton, jamais instancié ailleurs
+    - Aucun appel pb.collection(...) en dehors du dossier infrastructure/pocketbase/
+    - Les hooks React (presentation/hooks/) consomment uniquement des use-cases (application/), jamais un repository directement
+    - Vérifier qu'aucune règle de cache runtime du Service Worker (vite-plugin-pwa) ne cible les endpoints PocketBase authentifiés
+    - Les endpoints PocketBase publics (news) peuvent utiliser une stratégie de cache StaleWhileRevalidate ou NetworkFirst
