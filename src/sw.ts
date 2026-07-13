@@ -9,7 +9,27 @@ declare const self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: Array<{ url: string; revision: string | null }>;
 };
 
-const PRIVATE_PATHS = ['/api/private/', '/api/chat/', '/api/auth/', '/auth/'];
+/**
+ * Paths that must NEVER be stored in the shared SW cache.
+ * Includes current private API prefixes and the members navigation prefix so
+ * future auth/chat endpoints added under these paths are protected by default.
+ * Session tokens must never appear in cached responses.
+ */
+export const PRIVATE_PATHS = [
+  '/api/private/',
+  '/api/chat/',
+  '/api/auth/',
+  '/api/sse/',
+  '/auth/',
+  '/members/'
+];
+
+/**
+ * Public paths explicitly allowed for offline caching.
+ * Anything not in this list and not matched by the asset rules below falls
+ * through to the private / network-only handler.
+ */
+export const PUBLIC_PATHS = ['/', '/index.html'];
 
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
@@ -31,6 +51,7 @@ registerRoute(
 
     return PRIVATE_PATHS.some((path) => url.pathname.startsWith(path));
   },
+  // no-store: never write private/member responses to any cache
   new NetworkOnly()
 );
 

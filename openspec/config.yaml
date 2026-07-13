@@ -5,7 +5,11 @@ context: |
   Type de projet : PWA pour une association fablab, avec un module WASM.
 
   Stack technique :
-  - Frontend : TypeScript, Vite, PWA (Service Worker via vite-plugin-pwa)
+  - Frontend
+      langage: TypeScript
+      bundler: Vite
+      framework: React (18+)
+      pwd: Service Worker via vite-plugin-pwa
   - Backend : Go (net/http), API HTTP + endpoint SSE pour le temps réel
   - Module WASM : Go compilé via TinyGo (binaire léger, interop JS via syscall/js
     restreint à l'API TinyGo)
@@ -14,40 +18,27 @@ context: |
   Fonctionnalités principales :
   1. Zone publique (non authentifiée) : news du projet, présentation de l'association,
      lisible offline une fois mise en cache par le Service Worker.
-     Inclut l'analyseur STL : upload d'un fichier .stl (binaire ou ASCII), traité
-     entièrement côté client via le module WASM (parsing, calcul de volume, dimensions,
-     nombre de triangles, détection de géométrie non-manifold). Aucun envoi du fichier
-     au backend — traitement local, fonctionne offline une fois l'app installée.
   2. Zone membres (authentifiée) : chat interne entre membres.
-     - Authentification fédérée multi-IdP : Matrix (OIDC), Google (OAuth2/OIDC),
-       via go-oidc côté backend.
      - Moteur de chat interne :
        - Réception : flux SSE (net/http avec http.Flusher), authentifiée par token
        - Envoi : requêtes HTTP POST classiques
        - Reconnexion : gestion Last-Event-ID côté client
-     - Consommation externe optionnelle : lecture de salons Matrix externes en lecture seule
 
   Contraintes :
   - Séparation stricte entre contenu public (offline, non authentifié) et contenu privé
     (chat membres, session valide requise)
   - Le token de session ne doit jamais être exposé au Service Worker en cache partagé
   - Le flux SSE ne doit pas être mis en cache par le Service Worker
-  - Le chat interne doit fonctionner même si aucun homeserver Matrix externe n'est joignable
-  - L'analyseur STL doit fonctionner 100% côté client (pas de round-trip backend),
-    y compris hors-ligne après premier chargement
   - Module WASM : compilé via TinyGo, vérifier la compatibilité de chaque dépendance
     Go utilisée avant de l'introduire
-  - Fichiers STL potentiellement volumineux (impression 3D) : prévoir un traitement
-    par flux/chunks plutôt qu'un chargement intégral en mémoire si nécessaire
 
 rules:
   proposal:
     - Préciser si la fonctionnalité touche la zone publique, la zone membres, ou les deux
-    - Pour toute proposition touchant le chat : préciser si elle concerne le moteur interne (SSE, backend Go) ou l'intégration Matrix externe
+    - Pour toute proposition touchant le chat : préciser si elle concerne le moteur interne (SSE, backend Go)
     - Pour toute proposition touchant le module WASM : vérifier la compatibilité TinyGO des dépendances envisagées
     - Identifier l'impact sur le Service Worker (cache public vs flux SSE/contenu
       authentifié jamais mis en cache)
   specs:
     - Pour toute spec touchant l'auth : préciser le(s) provider(s) concerné(s) et le flow OIDC
     - Pour toute spec touchant le chat interne : décrire le modèle de données des messages, le format des événements SSE, et la gestion de reconnexion (Last-Event-ID)
-    - Pour toute spec touchant l'analyseur STL : préciser le format supporté (binaire/ASCII/les deux) et les métriques calculées (volume, dimensions, nb triangles, manifold check)
