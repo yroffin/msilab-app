@@ -4,8 +4,9 @@ export default function PublicPage() {
   return (
     <main className="page-shell">
       <section className="hero card">
-        <p className="eyebrow">Zone publique</p>
-        <h1>MSILab App</h1>
+        <p className="eyebrow">MSILab App</p>
+        <span className="zone-badge zone-badge--public">Zone publique · Offline</span>
+        <h1>Le fablab de l&apos;asso</h1>
         <p className="lede">
           Pages publiques, actualités et présentation de l&apos;association.
           Disponibles hors-ligne après la première visite.
@@ -19,16 +20,16 @@ export default function PublicPage() {
 
       <section className="grid">
         <article className="card" id="public">
-          <p className="eyebrow">Public · Offline</p>
+          <span className="zone-badge zone-badge--public">Public · Offline</span>
           <h2>Disponible hors-ligne</h2>
           <p>
-            Le contenu public est mis en cache par le Service Worker et
-            consultable sans connexion après le premier chargement.
+            Contenu mis en cache par le Service Worker, consultable sans
+            connexion après le premier chargement.
           </p>
         </article>
 
         <article className="card">
-          <p className="eyebrow">Membres</p>
+          <span className="zone-badge zone-badge--private">Membres · Privé</span>
           <h2>Accès sécurisé</h2>
           <p>
             Les pages et API membres ne sont jamais mises en cache partagé.

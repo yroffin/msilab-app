@@ -10,19 +10,30 @@ context: |
       bundler: Vite
       framework: React (18+)
       pwd: Service Worker via vite-plugin-pwa
-  - Backend : Go (net/http), API HTTP + endpoint SSE pour le temps réel
-  - Module WASM : Go compilé via TinyGo (binaire léger, interop JS via syscall/js
+  - Backend : (desactivé)
+      langage: Go (net/http)
+      network: API HTTP + endpoint SSE for real time
+  - Module WASM : (desactivé)
+      langage: Go compilé with TinyGo binaire léger, interop JS via syscall/js
     restreint à l'API TinyGo)
   - Choix délibéré : un seul langage (Go) pour backend ET WASM
 
   - Architecture:
       pattern: Clean Architecture
-      layers:
-        domain: pure business entities, no external dependencies (member, machine, booking)
-        application: use-cases / services, orchestrate the domain, depend on interfaces (ports)
-        infrastructure: concrete implementations (PocketBase SDK, IndexedDB, Service Worker cache)
-        presentation: React components, hooks, UI state — depends on application, never the reverse
-      dependency_rule: inner layers never know about outer layers
+      couches:
+        domain: entités métier pures, aucune dépendance externe (adhérent, machine, réservation)
+        application: use-cases / services, orchestrent le domain, dépendent d'interfaces (ports)
+        infrastructure: implémentations concrètes (SDK PocketBase, IndexedDB, cache Service Worker)
+        presentation: composants React, hooks, état UI — dépend de application, jamais l'inverse
+      regle_dependance: les couches internes ne connaissent jamais les couches externes
+
+  - Design:
+      style: monochrome, graphique, noir/blanc/nuances de gris
+      palette: échelle de gris custom (10 nuances + noir/blanc purs), aucune couleur d'accent
+      typographie: police à fort caractère graphique comme vecteur d'identité principal
+      hierarchie: contraste et taille typographique plutôt que couleur
+      accessibilite: ratio de contraste WCAG AA minimum (4.5:1 texte courant, 3:1 titres)
+      etats_interactifs: hover/focus/disabled signalés par contraste/opacité/soulignement, pas par couleur
 
   Fonctionnalités principales :
   1. Zone publique (non authentifiée) : news du projet, présentation de l'association,
@@ -44,10 +55,16 @@ context: |
 rules:
   proposal:
     - Préciser si la fonctionnalité touche la zone publique, la zone membres, ou les deux
-    - Pour toute proposition touchant le chat : préciser si elle concerne le moteur interne (SSE, backend Go)
-    - Pour toute proposition touchant le module WASM : vérifier la compatibilité TinyGO des dépendances envisagées
-    - Identifier l'impact sur le Service Worker (cache public vs flux SSE/contenu
-      authentifié jamais mis en cache)
+    - Justifier tout écart avec la Clean Architecture définie dans le contexte
+    - Préciser l'impact sur le module WASM si la proposal touche au frontend
   specs:
-    - Pour toute spec touchant l'auth : préciser le(s) provider(s) concerné(s) et le flow OIDC
-    - Pour toute spec touchant le chat interne : décrire le modèle de données des messages, le format des événements SSE, et la gestion de reconnexion (Last-Event-ID)
+    - Format Given/When/Then pour les scénarios
+    - Distinguer explicitement les endpoints/flux publics (offline) des privés (authentifiés)
+  design:
+    - Documenter dans quelle couche (domain/application/infrastructure/presentation) chaque nouvel élément se situe
+    - Vérifier la compatibilité TinyGo de toute nouvelle dépendance Go si le module WASM est concerné
+  tasks:
+    - Grouper les tâches par couche d'architecture
+  apply:
+    - Ne jamais faire fuiter le token de session dans le cache du Service Worker
+    - Ne jamais mettre en cache le flux SSE

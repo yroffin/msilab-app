@@ -1,25 +1,67 @@
+/* ─── Monochrome Design Tokens ──────────────────────────────────────────── */
+
 :root {
+  /* Palette — pure black/white + 10 custom gray steps */
+  --c-black:   #000000;
+  --c-gray-10: #111111;
+  --c-gray-20: #1e1e1e;
+  --c-gray-30: #2c2c2c;
+  --c-gray-40: #404040;
+  --c-gray-50: #5a5a5a;
+  --c-gray-60: #767676; /* WCAG AA minimum for large text on white */
+  --c-gray-70: #959595;
+  --c-gray-80: #b8b8b8;
+  --c-gray-90: #d9d9d9;
+  --c-white:   #ffffff;
+
+  /* Semantic surface/text roles */
+  --surface-bg:       var(--c-gray-10);
+  --surface-card:     var(--c-gray-20);
+  --surface-raised:   var(--c-gray-30);
+  --border-subtle:    var(--c-gray-40);
+  --border-default:   var(--c-gray-50);
+
+  --text-primary:     var(--c-white);
+  --text-secondary:   var(--c-gray-80);
+  --text-muted:       var(--c-gray-60);
+  --text-inverse:     var(--c-black);
+
+  /* Interactive-state tokens — contrast / opacity / underline only, no hue */
+  --interactive-hover-bg:     var(--c-gray-30);
+  --interactive-hover-border: var(--c-gray-60);
+  --interactive-focus-ring:   var(--c-white);
+  --interactive-disabled-opacity: 0.38;
+
+  /* Typography scale */
+  --font-family: 'DM Mono', 'JetBrains Mono', ui-monospace, monospace;
+  --type-xs:   0.70rem;   /* eyebrow / labels */
+  --type-sm:   0.875rem;
+  --type-base: 1rem;
+  --type-lg:   1.1rem;    /* lede */
+  --type-xl:   1.375rem;
+  --type-2xl:  2.25rem;
+  --type-hero: clamp(2.8rem, 7vw, 5.8rem);
+
+  --leading-tight: 0.94;
+  --leading-base:  1.5;
+  --tracking-wide: 0.16em;
+  --weight-normal: 400;
+  --weight-bold:   700;
+
+  /* ── Legacy compat reset ── */
   color-scheme: dark;
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.16), transparent 36%),
-    radial-gradient(circle at top right, rgba(251, 191, 36, 0.14), transparent 28%),
-    linear-gradient(180deg, #07111f 0%, #0b1220 46%, #10182a 100%);
-  color: #e2e8f0;
-  line-height: 1.5;
-  font-weight: 400;
+  font-family: var(--font-family);
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  line-height: var(--leading-base);
+  font-weight: var(--weight-normal);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
 
 * {
   box-sizing: border-box;
@@ -40,9 +82,15 @@ a {
   text-decoration: none;
 }
 
+h1, h2, p {
+  margin: 0;
+}
+
 #app {
   min-height: 100vh;
 }
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
 
 .page-shell {
   width: min(1080px, calc(100vw - 2rem));
@@ -52,13 +100,15 @@ a {
   gap: 1rem;
 }
 
+/* ─── Card ───────────────────────────────────────────────────────────────── */
+
 .card {
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  border-radius: 24px;
-  background: rgba(15, 23, 42, 0.74);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.36);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  background: var(--surface-card);
 }
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
 
 .hero {
   padding: clamp(1.5rem, 4vw, 3.5rem);
@@ -66,31 +116,60 @@ a {
   gap: 1rem;
 }
 
+/* ─── Typography ─────────────────────────────────────────────────────────── */
+
 .eyebrow {
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.75rem;
-  color: #5eead4;
-}
-
-h1,
-h2,
-p {
-  margin: 0;
+  letter-spacing: var(--tracking-wide);
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  font-weight: var(--weight-bold);
 }
 
 h1 {
-  font-size: clamp(2.6rem, 7vw, 5.6rem);
-  line-height: 0.95;
+  font-size: var(--type-hero);
+  line-height: var(--leading-tight);
   max-width: 9ch;
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: var(--type-xl);
+  color: var(--text-primary);
 }
 
 .lede {
   max-width: 62ch;
-  font-size: 1.05rem;
-  color: #cbd5e1;
+  font-size: var(--type-lg);
+  color: var(--text-secondary);
 }
+
+/* ─── Zone badges (public vs private visual distinction) ─────────────────── */
+
+.zone-badge {
+  display: inline-block;
+  font-size: var(--type-xs);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 0.2em 0.6em;
+  border-radius: 4px;
+}
+
+.zone-badge--public {
+  background: var(--c-gray-30);
+  color: var(--c-gray-80);
+  border: 1px solid var(--c-gray-50);
+}
+
+.zone-badge--private {
+  background: var(--c-gray-10);
+  color: var(--c-white);
+  border: 1px solid var(--c-gray-60);
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
 
 .hero-actions {
   display: flex;
@@ -102,28 +181,56 @@ h1 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  padding: 0.85rem 1.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-default);
+  font-family: var(--font-family);
+  font-size: var(--type-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  text-decoration: none;
   transition:
-    transform 160ms ease,
-    border-color 160ms ease,
-    background-color 160ms ease;
+    background-color 140ms ease,
+    border-color 140ms ease,
+    opacity 140ms ease;
 }
 
 .button:hover {
-  transform: translateY(-1px);
+  background-color: var(--interactive-hover-bg);
+  border-color: var(--interactive-hover-border);
+}
+
+/* Focus ring: visible without color accent */
+.button:focus-visible {
+  outline: 2px solid var(--interactive-focus-ring);
+  outline-offset: 3px;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: var(--interactive-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .button-primary {
-  background: linear-gradient(135deg, #5eead4 0%, #22c55e 100%);
-  color: #04111a;
-  font-weight: 700;
+  background: var(--c-white);
+  color: var(--c-black);
+  border-color: var(--c-white);
+}
+
+.button-primary:hover {
+  background: var(--c-gray-90);
+  border-color: var(--c-gray-90);
 }
 
 .button-secondary {
-  background: rgba(15, 23, 42, 0.6);
+  background: transparent;
+  color: var(--text-primary);
 }
+
+/* ─── Grid ───────────────────────────────────────────────────────────────── */
 
 .grid {
   display: grid;
@@ -131,32 +238,18 @@ h1 {
   gap: 1rem;
 }
 
-.grid .card,
-.status {
+.grid .card {
   padding: 1.4rem;
+  display: grid;
+  gap: 0.5rem;
 }
 
 .grid p {
-  color: #cbd5e1;
+  color: var(--text-secondary);
+  font-size: var(--type-sm);
 }
 
-.status {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.status-line {
-  margin-top: 0.15rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.status-note {
-  color: #94a3b8;
-}
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 720px) {
   .page-shell {
@@ -167,8 +260,6 @@ h1 {
   .grid {
     grid-template-columns: 1fr;
   }
-
-  .status {
-    align-items: flex-start;
-  }
 }
+
+
