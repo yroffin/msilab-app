@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'injectManifest',
-      srcDir: 'src',
+      srcDir: 'src/infrastructure/sw',
       filename: 'sw.ts',
       includeAssets: ['icons/icon.svg', 'icons/maskable-icon.svg'],
       manifest: {

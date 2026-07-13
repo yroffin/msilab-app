@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import PublicPage from '../pages/PublicPage';
-import PrivateRoute from '../components/PrivateRoute';
-import MembersPage from '../pages/MembersPage';
+import PublicPage from '../presentation/pages/PublicPage';
+import PrivateRoute from '../presentation/components/PrivateRoute';
+import MembersPage from '../presentation/pages/MembersPage';
 
 /**
  * Offline non-regression tests for the public zone.

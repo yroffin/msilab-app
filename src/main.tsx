@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { registerSW } from 'virtual:pwa-register';
 import './style.css';
-import App from './App';
+import App from './presentation/App';
 
 const container = document.getElementById('app');
 if (container === null) throw new Error('App root element not found');

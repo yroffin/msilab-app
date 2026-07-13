@@ -19,7 +19,7 @@ vi.mock('workbox-strategies', () => ({
   StaleWhileRevalidate: vi.fn()
 }));
 
-import { PRIVATE_PATHS, PUBLIC_PATHS } from '../sw';
+import { PRIVATE_PATHS, PUBLIC_PATHS } from '../infrastructure/sw/sw';
 
 /**
  * Verifies that the Service Worker cache partitioning constants enforce the

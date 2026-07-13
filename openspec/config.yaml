@@ -15,6 +15,15 @@ context: |
     restreint à l'API TinyGo)
   - Choix délibéré : un seul langage (Go) pour backend ET WASM
 
+  - Architecture:
+      pattern: Clean Architecture
+      layers:
+        domain: pure business entities, no external dependencies (member, machine, booking)
+        application: use-cases / services, orchestrate the domain, depend on interfaces (ports)
+        infrastructure: concrete implementations (PocketBase SDK, IndexedDB, Service Worker cache)
+        presentation: React components, hooks, UI state — depends on application, never the reverse
+      dependency_rule: inner layers never know about outer layers
+
   Fonctionnalités principales :
   1. Zone publique (non authentifiée) : news du projet, présentation de l'association,
      lisible offline une fois mise en cache par le Service Worker.
