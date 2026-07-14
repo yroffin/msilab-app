@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => {
           theme_color: '#0f172a',
           background_color: '#0b1220',
           display: 'standalone',
-          start_url: '/',
+          start_url: '/msilab-app',
           scope: '/',
           icons: [
             {
