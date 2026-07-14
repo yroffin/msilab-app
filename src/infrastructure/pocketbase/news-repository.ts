@@ -5,6 +5,7 @@ import { pocketBaseClient } from './client';
 interface PocketBaseNewsRecord {
   id: string;
   title: string;
+  body: string;
   created: string;
   updated: string;
 }
@@ -20,6 +21,7 @@ export class PocketBaseNewsRepository implements NewsRepositoryPort {
     return records.map((record) => ({
       id: record.id,
       title: record.title,
+      body: record.body,
       created: record.created,
       updated: record.updated
     }));
