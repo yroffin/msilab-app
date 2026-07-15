@@ -1,5 +1,6 @@
-import type { News } from '../news';
+import type { Contents } from '../contents';
 
-export interface NewsRepositoryPort {
-  listPublicNews(): Promise<News[]>;
+export interface ContentsRepositoryPort {
+  listPublicContents(tag: string): Promise<Contents[]>;
+  getPublicContents(id: string): Promise<Contents>;
 }

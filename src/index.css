@@ -1,0 +1,12 @@
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+@plugin "@tailwindcss/typography";
+
+.prose {
+  line-height: 1; /* au lieu du 1.75 par défaut du plugin */
+}
+
+.prose p {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}

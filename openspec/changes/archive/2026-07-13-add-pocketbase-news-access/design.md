@@ -25,7 +25,7 @@ Chaque nouvel element doit etre place dans la bonne couche:
 
 ## Decisions
 
-1. Le port `NewsRepositoryPort` vit dans `src/domain/ports/`.
+1. Le port `ContentsRepositoryPort` vit dans `src/domain/ports/`.
 Rationale: conforme a la contrainte config, le domaine declare le contrat et ignore l'implementation.
 Alternative: placer le port dans `application/ports/`. Rejetee car le config impose `domain/ports/` pour PocketBase.
 

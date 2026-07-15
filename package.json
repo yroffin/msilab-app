@@ -11,6 +11,8 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -19,19 +21,23 @@
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^4.1.10",
     "jsdom": "^25.0.1",
+    "tailwindcss": "^4.3.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.5",
     "vite-plugin-pwa": "^0.21.1",
     "vitest": "^4.1.10"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.36.0",
+    "@emotion/react": "^11.14.0",
+    "@fontsource/comfortaa": "^5.2.8",
+    "dompurify": "^3.4.12",
+    "next-themes": "^0.4.6",
     "pocketbase": "^0.27.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.0",
-    "@chakra-ui/react": "^3.36.0",
-    "@emotion/react": "^11.14.0",
-    "lucide-react": "^1.24.0"
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^6.28.0"
   },
   "allowScripts": {
     "esbuild@0.25.12": true

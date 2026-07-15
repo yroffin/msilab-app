@@ -1,47 +1,59 @@
+import "./index.css";
+
+import "@fontsource/comfortaa/400.css";
+import "@fontsource/comfortaa/500.css";
+import "@fontsource/comfortaa/700.css";
+
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { registerSW } from 'virtual:pwa-register';
 import { listPublicNews } from './application/use-cases/list-public-news';
-import { PocketBaseNewsRepository } from './infrastructure/pocketbase/news-repository';
 import App from './presentation/App';
 
 import { PublicNewsProvider } from './presentation/providers/public-news-provider';
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
 
+import { ThemeProvider } from "next-themes";
+import { PocketBaseContentsRepository } from "./infrastructure/pocketbase/contents-repository";
+import { PublicContentsProvider } from "./presentation/providers/public-contents-provider";
+import { listPublicContents } from "./application/use-cases/list-public-contents";
+
 const container = document.getElementById('app');
 if (container === null) throw new Error('App root element not found');
 
-const newsRepository = new PocketBaseNewsRepository();
+const contentsRepository = new PocketBaseContentsRepository();
 
 const system = createSystem(defaultConfig, {
   theme: {
     tokens: {
-      colors: {
-        brand: {
-          50: { value: "#f5f5f5" },
-          100: { value: "#e0e0e0" },
-          200: { value: "#c2c2c2" },
-          300: { value: "#a3a3a3" },
-          400: { value: "#858585" },
-          500: { value: "#666666" },
-          600: { value: "#4d4d4d" },
-          700: { value: "#333333" },
-          800: { value: "#1a1a1a" },
-          900: { value: "#000000" },
-        },
-      },
+      fonts: {
+        heading: { value: "comfortaa, sans-serif" },
+        body: { value: "comfortaa, sans-serif" },
+      }
     },
   },
 });
 
+export function ColorModeProvider(props: React.ComponentProps<typeof ThemeProvider>) {
+  return (
+    <ThemeProvider attribute="class" disableTransitionOnChange {...props} />
+  );
+}
+
 createRoot(container).render(
   <StrictMode>
     <ChakraProvider value={system}>
-      <PublicNewsProvider
-        listPublicNews={() => listPublicNews(newsRepository)}
-      >
-        <App />
-      </PublicNewsProvider>
+      <ColorModeProvider>
+        <PublicNewsProvider
+          listPublicNews={() => listPublicNews(contentsRepository)}
+        >
+          <PublicContentsProvider
+            listPublicContents={() => listPublicContents(contentsRepository)}
+          >
+            <App />
+          </PublicContentsProvider>
+        </PublicNewsProvider>
+      </ColorModeProvider>
     </ChakraProvider>
   </StrictMode>
 );

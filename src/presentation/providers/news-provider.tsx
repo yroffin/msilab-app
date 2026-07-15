@@ -1,10 +1,10 @@
 import { createContext, type ReactNode, useContext } from 'react';
-import type { NewsRepositoryPort } from '../../domain/ports/news-repository-port';
-import { PocketBaseNewsRepository } from '../../infrastructure/pocketbase/news-repository';
+import type { ContentsRepositoryPort } from '../../domain/ports/news-repository-port';
+import { PocketBaseContentsRepository } from '../../infrastructure/pocketbase/contents-repository';
 
-const NewsRepositoryContext = createContext<NewsRepositoryPort | null>(null);
+const NewsRepositoryContext = createContext<ContentsRepositoryPort | null>(null);
 
-const repository = new PocketBaseNewsRepository();
+const repository = new PocketBaseContentsRepository();
 
 export function NewsRepositoryProvider({
   children
@@ -18,7 +18,7 @@ export function NewsRepositoryProvider({
   );
 }
 
-export function useNewsRepository(): NewsRepositoryPort {
+export function useNewsRepository(): ContentsRepositoryPort {
   const context = useContext(NewsRepositoryContext);
   if (context === null) {
     throw new Error('NewsRepositoryProvider is missing');

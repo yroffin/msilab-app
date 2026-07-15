@@ -13,7 +13,7 @@ vi.mock('./client', () => ({
   }
 }));
 
-import { PocketBaseNewsRepository } from './news-repository';
+import { PocketBaseContentsRepository } from './news-repository';
 
 describe('PocketBaseNewsRepository', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('PocketBaseNewsRepository', () => {
       { id: 'n1', title: 'Hello', created: '2026-07-13', updated: '2026-07-13' }
     ]);
 
-    const repository = new PocketBaseNewsRepository();
+    const repository = new PocketBaseContentsRepository();
     const result = await repository.listPublicNews();
 
     expect(collection).toHaveBeenCalledWith('news');

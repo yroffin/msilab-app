@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import type { News } from '../../domain/news';
+import type { Contents } from '../../domain/contents';
 import { useListPublicNews } from '../providers/public-news-provider';
 
 interface UsePublicNewsState {
-  items: News[];
+  items: Contents[];
   isLoading: boolean;
   error: string | null;
 }
@@ -22,7 +22,7 @@ export function usePublicNews(): UsePublicNewsState {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached !== null) {
       try {
-        const parsed = JSON.parse(cached) as News[];
+        const parsed = JSON.parse(cached) as Contents[];
         setState({ items: parsed, isLoading: true, error: null });
       } catch {
         localStorage.removeItem(CACHE_KEY);

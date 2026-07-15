@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import { usePublicNews } from '../hooks/use-public-news';
-import { Bleed, Box, Button, Text, Grid, Heading, HStack, Stack, IconButton, Flex, Portal, Menu, Card, SimpleGrid, Container, Wrap, ScrollArea, Badge } from '@chakra-ui/react';
-import { Aperture, TableOfContents } from "lucide-react";
-import { News } from '../../domain/news';
+import { Box, Text, Stack, IconButton, Flex, Portal, Menu, Card, Badge } from '@chakra-ui/react';
+import { Contents } from '../../domain/contents';
+import { LuAperture, LuTableOfContents } from 'react-icons/lu';
+import { usePublicContents } from '../hooks/use-public-contents';
 
 type TopBarProps = {
   title: string;
@@ -40,7 +40,7 @@ export function TopBar({
             onClick={onBack}
             size="sm"
           >
-            <Aperture size={20} />
+            <LuAperture size={20} />
           </IconButton>
         ) : (
           <IconButton
@@ -49,7 +49,7 @@ export function TopBar({
             onClick={onMenu}
             size="sm"
           >
-            <Aperture size={20} />
+            <LuAperture size={20} />
           </IconButton>
         )}
       </Box>
@@ -71,7 +71,7 @@ export function TopBar({
       <Menu.Root>
         <Menu.Trigger asChild>
           <IconButton>
-            <TableOfContents size={20} />
+            <LuTableOfContents size={20} />
           </IconButton>
         </Menu.Trigger>
         <Portal>
@@ -110,19 +110,109 @@ export function WelcomeCard({
   );
 }
 
+interface ContentCardProps {
+  title: string;
+}
+
+export function AProposCard({
+  title
+}: ContentCardProps) {
+  const { content, isLoading, error } = usePublicContents();
+
+  return (
+    <Stack>
+
+      {isLoading && content === undefined ? (
+        <p>Chargement des contenus...</p>
+      ) : null}
+
+      {error !== null ? (
+        <p>
+          Donnees locales affichees. Synchronisation distante indisponible.
+        </p>
+      ) : null}
+
+      {!isLoading && content === undefined ? (
+        <p>Aucune contenu disponible.</p>
+      ) : null}
+
+      {content?.aPropos !== undefined ? (
+        <Box>
+          <Card.Root>
+            <Card.Body gap="2">
+              <Card.Title mt="2">{content?.aPropos.title}</Card.Title>
+              <Card.Description
+                key={content?.aPropos.id}
+                className="prose"
+                dangerouslySetInnerHTML={{ __html: content?.aPropos.body }}
+              >
+              </Card.Description>
+            </Card.Body>
+            <Card.Footer justifyContent="flex-end">
+              <Badge>Date de création: {new Date(content?.aPropos.updated).toLocaleDateString('fr-FR')}</Badge>
+            </Card.Footer>
+          </Card.Root>
+        </Box>
+      ) : <div></div>}
+
+    </Stack>
+  );
+}
+
+export function LegalCard({
+  title
+}: ContentCardProps) {
+  const { content, isLoading, error } = usePublicContents();
+
+  return (
+    <Stack>
+
+      {isLoading && content === undefined ? (
+        <p>Chargement des contenus...</p>
+      ) : null}
+
+      {error !== null ? (
+        <p>
+          Donnees locales affichees. Synchronisation distante indisponible.
+        </p>
+      ) : null}
+
+      {!isLoading && content === undefined ? (
+        <p>Aucune contenu disponible.</p>
+      ) : null}
+
+      {content?.legal !== undefined ? (
+        <Box>
+          <Card.Root>
+            <Card.Body gap="2">
+              <Card.Title mt="2">{content?.legal.title}</Card.Title>
+              <Card.Description
+                key={content?.legal.id}
+                className="prose"
+                dangerouslySetInnerHTML={{ __html: content?.legal.body }}
+              >
+              </Card.Description>
+            </Card.Body>
+            <Card.Footer justifyContent="flex-end">
+              <Badge>Date de création: {new Date(content?.legal.updated).toLocaleDateString('fr-FR')}</Badge>
+            </Card.Footer>
+          </Card.Root>
+        </Box>
+      ) : <div></div>}
+
+    </Stack>
+  );
+}
+
 interface NewsCardProps {
   title: string;
-  items: News[];
-  isLoading: boolean;
-  error: string | null;
 }
 
 export function NewsCard({
-  title,
-  isLoading,
-  error,
-  items,
+  title
 }: NewsCardProps) {
+  const { items, isLoading, error } = usePublicNews();
+
   return (
     <Stack>
 
@@ -140,13 +230,17 @@ export function NewsCard({
         <p>Aucune news disponible.</p>
       ) : null}
 
-      {title}
-      {items.map((item: News) => (
+      <p>{title}</p>
+
+      {items.map((item: Contents) => (
         <Card.Root>
           <Card.Body gap="2">
             <Card.Title mt="2">{item.title}</Card.Title>
-            <Card.Description>
-              <div dangerouslySetInnerHTML={{ __html: item.body }} />
+            <Card.Description
+              key={item.id}
+              className="prose"
+              dangerouslySetInnerHTML={{ __html: item.body }}
+            >
             </Card.Description>
           </Card.Body>
           <Card.Footer justifyContent="flex-end">
@@ -164,15 +258,13 @@ type AgendaProps = {
 };
 
 export function AgendaCard({
-  title,
-  body,
+  title
 }: AgendaProps) {
   return (
     <Card.Root>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Description>
-          {body}
         </Card.Description>
       </Card.Body>
       <Card.Footer justifyContent="flex-end">
@@ -183,45 +275,9 @@ export function AgendaCard({
 
 
 export default function PublicPage() {
-  const { items, isLoading, error } = usePublicNews();
-
   return (
-    <main className="page-shell">
-      <Stack>
-        <TopBar
-          title="MSILAB"
-          showBack
-          onBack={() => console.log("retour")}
-          onNotifications={() => console.log("notifs")}
-        />
-        <ScrollArea.Root>
-          <ScrollArea.Viewport>
-            <ScrollArea.Content position="sticky" top={8}>
-              <WelcomeCard
-                title="Fabrique. Innove. Partage."
-                body="MSILAB"
-              />
-
-              <NewsCard
-                title="Agenda"
-                isLoading={isLoading}
-                error={error}
-                items={items}
-              />
-
-              <AgendaCard
-                title="Agenda"
-                body="TODO..."
-              />
-            </ScrollArea.Content>
-          </ScrollArea.Viewport>
-          <ScrollArea.Scrollbar>
-            <ScrollArea.Thumb />
-          </ScrollArea.Scrollbar>
-          <ScrollArea.Corner />
-        </ScrollArea.Root>
-
-      </Stack>
-    </main>
+    <Box>
+      PublicPage
+    </Box>
   );
 }

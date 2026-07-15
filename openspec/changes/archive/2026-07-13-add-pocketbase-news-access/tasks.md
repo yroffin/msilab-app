@@ -5,14 +5,14 @@
 
 ## 2. Application (couche application)
 
-- [x] 2.1 Ajouter un use-case de lecture des news publiques s'appuyant uniquement sur `NewsRepositoryPort`.
+- [x] 2.1 Ajouter un use-case de lecture des news publiques s'appuyant uniquement sur `ContentsRepositoryPort`.
 - [x] 2.2 Ajouter les types de resultat/erreur applicatifs necessaires pour la lecture des news sans exposer PocketBase a la presentation.
 
 ## 3. Infrastructure (couche infrastructure)
 
 - [x] 3.1 Installer/configurer le SDK PocketBase cote frontend.
 - [x] 3.2 Ajouter `src/infrastructure/pocketbase/client.ts` comme singleton avec URL issue d'une variable d'environnement et valeur par defaut `https://foo.bar`.
-- [x] 3.3 Ajouter `src/infrastructure/pocketbase/news-repository.ts` implementant `NewsRepositoryPort` et mappant la collection `news`.
+- [x] 3.3 Ajouter `src/infrastructure/pocketbase/news-repository.ts` implementant `ContentsRepositoryPort` et mappant la collection `news`.
 - [x] 3.4 Verifier qu'aucun appel `pb.collection(...)` n'existe hors `src/infrastructure/pocketbase/`.
 - [x] 3.5 Verifier la configuration Service Worker/cache runtime pour traiter les endpoints PocketBase publics de news comme flux publics cacheables et exclure tout endpoint authentifie.
 

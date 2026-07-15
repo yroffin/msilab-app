@@ -1,5 +1,5 @@
-import type { News } from '../../domain/news';
-import type { NewsRepositoryPort } from '../../domain/ports/news-repository-port';
+import type { Contents } from '../../domain/contents';
+import type { ContentsRepositoryPort } from '../../domain/ports/news-repository-port';
 
 export class ListPublicNewsError extends Error {
   constructor(message = 'Unable to load public news') {
@@ -9,10 +9,10 @@ export class ListPublicNewsError extends Error {
 }
 
 export async function listPublicNews(
-  repository: NewsRepositoryPort
-): Promise<News[]> {
+  repository: ContentsRepositoryPort
+): Promise<Contents[]> {
   try {
-    return await repository.listPublicNews();
+    return await repository.listPublicContents("news");
   } catch (error) {
     throw new ListPublicNewsError(
       error instanceof Error ? error.message : 'Unknown PocketBase error'

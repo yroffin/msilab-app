@@ -1,7 +1,7 @@
 import { createContext, type ReactNode, useContext } from 'react';
-import type { News } from '../../domain/news';
+import type { Contents } from '../../domain/contents';
 
-type ListPublicNewsUseCase = () => Promise<News[]>;
+type ListPublicNewsUseCase = () => Promise<Contents[]>;
 
 const PublicNewsContext = createContext<ListPublicNewsUseCase | null>(null);
 
