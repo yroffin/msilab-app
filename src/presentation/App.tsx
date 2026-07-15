@@ -19,7 +19,7 @@ import { BrowserRouter, Navigate, NavLink, Outlet, Route, Routes } from "react-r
 import PrivateRoute from "./components/PrivateRoute";
 import MembersPage from "./pages/MembersPage";
 import { AProposCard, LegalCard, NewsCard } from "./pages/PublicPage";
-import logo from "/icons/icon.svg";
+import logo from "/icons/icon.png";
 import { useTheme } from "next-themes";
 import { usePublicContents } from "./hooks/use-public-contents";
 
@@ -75,9 +75,8 @@ function ToolbarContent({ associationName, onOpenDrawer }: ToolbarProps) {
         <Image
           src={logo}
           alt=""
-          w="28px"
-          h="28px"
-          flexShrink={0}
+          w="64px"
+          h="32px"
           aria-hidden
         />
         <Text fontWeight="bold" fontSize="md" truncate>

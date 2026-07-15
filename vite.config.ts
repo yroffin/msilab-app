@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         srcDir: 'src/infrastructure/sw',
         filename: 'sw.ts',
-        includeAssets: ['icons/icon.svg', 'icons/maskable-icon.svg'],
+        includeAssets: ['icons/icon.png', 'icons/icon.svg', 'icons/maskable-icon.svg'],
         manifest: {
           name: 'MSILab App',
           short_name: 'MSILab',
