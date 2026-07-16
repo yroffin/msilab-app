@@ -1,5 +1,5 @@
 import type { ContentsProps } from '../../domain/contents';
-import type { ContentsRepositoryPort } from '../../domain/ports/news-repository-port';
+import type { ContentsRepositoryPort } from '../../domain/ports/contents-repository-port';
 
 export class ListPublicContentsError extends Error {
   constructor(message = 'Unable to load public contents') {

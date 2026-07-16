@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { ContentsRepositoryPort } from '../../domain/ports/news-repository-port';
+import type { ContentsRepositoryPort } from '../../domain/ports/contents-repository-port';
 import { ListPublicNewsError, listPublicNews } from './list-public-news';
 
 describe('listPublicNews', () => {

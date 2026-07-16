@@ -17,6 +17,7 @@ import { ThemeProvider } from "next-themes";
 import { PocketBaseContentsRepository } from "./infrastructure/pocketbase/contents-repository";
 import { PublicContentsProvider } from "./presentation/providers/public-contents-provider";
 import { listPublicContents } from "./application/use-cases/list-public-contents";
+import { AuthProvider } from "./infrastructure/session/Authcontext";
 
 const container = document.getElementById('app');
 if (container === null) throw new Error('App root element not found');
@@ -50,7 +51,9 @@ createRoot(container).render(
           <PublicContentsProvider
             listPublicContents={() => listPublicContents(contentsRepository)}
           >
-            <App />
+            <AuthProvider>
+              <App />
+            </AuthProvider>
           </PublicContentsProvider>
         </PublicNewsProvider>
       </ColorModeProvider>
