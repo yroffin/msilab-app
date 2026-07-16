@@ -143,6 +143,7 @@ export function AProposCard({
               <Card.Title mt="2">{content?.aPropos.title}</Card.Title>
               <Card.Description
                 key={content?.aPropos.id}
+                color="fg.default"
                 className="prose"
                 dangerouslySetInnerHTML={{ __html: content?.aPropos.body }}
               >
@@ -188,6 +189,7 @@ export function LegalCard({
               <Card.Title mt="2">{content?.legal.title}</Card.Title>
               <Card.Description
                 key={content?.legal.id}
+                color="fg.default"
                 className="prose"
                 dangerouslySetInnerHTML={{ __html: content?.legal.body }}
               >
@@ -238,6 +240,7 @@ export function NewsCard({
             <Card.Title mt="2">{item.title}</Card.Title>
             <Card.Description
               key={item.id}
+              color="fg.default"
               className="prose"
               dangerouslySetInnerHTML={{ __html: item.body }}
             >

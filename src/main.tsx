@@ -32,8 +32,17 @@ const system = createSystem(defaultConfig, {
         body: { value: "comfortaa, sans-serif" },
       }
     },
-  },
-});
+    semanticTokens: {
+      colors: {
+        "fg.default": {
+          value: { base: "{colors.black}", _dark: "{colors.white}" },
+        },
+        "bg.default": {
+          value: { base: "{colors.white}", _dark: "{colors.black}" },
+        },
+      },
+    },
+  }});
 
 export function ColorModeProvider(props: React.ComponentProps<typeof ThemeProvider>) {
   return (

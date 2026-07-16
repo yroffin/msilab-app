@@ -76,6 +76,7 @@ export function SidebarContent({ user, onNavigate }: {
       {content?.contactUs !== undefined ? (
         <Box
           key={content?.contactUs.id}
+          color="fg.default"
           className="prose"
           dangerouslySetInnerHTML={{ __html: content?.contactUs.body }}
         >
