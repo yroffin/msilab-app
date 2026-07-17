@@ -18,6 +18,7 @@ import { PocketBaseContentsRepository } from "./infrastructure/pocketbase/conten
 import { PublicContentsProvider } from "./presentation/providers/public-contents-provider";
 import { listPublicContents } from "./application/use-cases/list-public-contents";
 import { AuthProvider } from "./infrastructure/session/Authcontext";
+import { SettingsProvider } from "./presentation/providers/SettingsProvider";
 
 const container = document.getElementById('app');
 if (container === null) throw new Error('App root element not found');
@@ -42,7 +43,8 @@ const system = createSystem(defaultConfig, {
         },
       },
     },
-  }});
+  }
+});
 
 export function ColorModeProvider(props: React.ComponentProps<typeof ThemeProvider>) {
   return (
@@ -61,7 +63,9 @@ createRoot(container).render(
             listPublicContents={() => listPublicContents(contentsRepository)}
           >
             <AuthProvider>
-              <App />
+              <SettingsProvider>
+                <App />
+              </SettingsProvider>
             </AuthProvider>
           </PublicContentsProvider>
         </PublicNewsProvider>

@@ -32,7 +32,8 @@ export function SidebarContent({ user, onNavigate }: {
     { label: "Mentions légales", to: "/mentions", icon: LuNewspaper }
   ]
   const divers = [
-    { label: "Actualités", to: "/news", icon: LuNewspaper }
+    { label: "Actualités", to: "/news", icon: LuNewspaper },
+    { label: "Membres", to: "/members", icon: LuNewspaper }
   ]
   return (
     <Flex h="full" direction="column">
