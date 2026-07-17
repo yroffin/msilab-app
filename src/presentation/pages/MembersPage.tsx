@@ -1,4 +1,4 @@
-import { Badge, Flex, VStack } from "@chakra-ui/react";
+import { Badge, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../../infrastructure/session/Authcontext";
 import { useSettings } from "../providers/SettingsProvider";
 
@@ -9,7 +9,7 @@ export default function MembersPage() {
 
   return (
     <VStack>
-      La salle est actuellement:
+      <Text>La salle est actuellement</Text>
       <Badge
         bg={settings?.data.open ? "green" : "red"}
         color={settings?.data.open ? "white" : "black"}
@@ -21,7 +21,8 @@ export default function MembersPage() {
       >
         {settings?.data.open ? " Ouverte " : " Fermée "}
       </Badge>
-      Dernière mise à jour par [{settings?.data?.holder?.user.name}]
+      <Text>Dernière mise à jour par</Text>
+      <Text>[{settings?.data?.holder?.user.name}]</Text>
     </VStack>
   );
 }
