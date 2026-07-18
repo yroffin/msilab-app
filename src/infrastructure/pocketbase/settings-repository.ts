@@ -12,7 +12,7 @@ interface PocketBaseSettingsRecord {
 export class PocketBaseSettingsRepository implements SettingsRepositoryPort {
   async getSettings(id: string): Promise<Settings> {
     const record = await pocketBaseClient
-      .collection('Settings')
+      .collection('settings')
       .getOne<PocketBaseSettingsRecord>(id);
 
     return {
@@ -25,7 +25,7 @@ export class PocketBaseSettingsRepository implements SettingsRepositoryPort {
 
   async setSettings(data: Settings): Promise<Settings> {
     const record = await pocketBaseClient
-      .collection('Settings')
+      .collection('settings')
       .update<PocketBaseSettingsRecord>(data.id, data);
 
     return {
