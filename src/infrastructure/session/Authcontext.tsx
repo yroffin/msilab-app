@@ -8,6 +8,7 @@ type AuthContextValue = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (email: string, password: string, name: string) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -46,8 +47,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await login(email, password);
   }
 
+  async function requestPasswordReset(email: string) {
+    await pocketBaseClient.collection("users").requestPasswordReset(email);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, register }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, register, requestPasswordReset }}
+    >
       {children}
     </AuthContext.Provider>
   );

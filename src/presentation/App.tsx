@@ -39,7 +39,7 @@ export function AppLayout({ user }: { user: { name: string } | null }) {
                 <Drawer.Title>Navigation</Drawer.Title>
               </Drawer.Header>
               <Drawer.Body>
-                <SidebarContent user={user} />
+                <SidebarContent user={user} onNavigate={() => setDrawerOpen(false)} />
               </Drawer.Body>
             </Drawer.Content>
           </Drawer.Positioner>

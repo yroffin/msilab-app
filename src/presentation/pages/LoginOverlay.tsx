@@ -9,15 +9,18 @@ type LoginOverlayProps = {
 };
 
 export function LoginOverlay({ open, onOpenChange }: LoginOverlayProps) {
-    const { login } = useAuth();
+    const { login, requestPasswordReset } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [info, setInfo] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isResetSubmitting, setIsResetSubmitting] = useState(false);
 
     async function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
         setError(null);
+        setInfo(null);
         setIsSubmitting(true);
 
         try {
@@ -29,6 +32,26 @@ export function LoginOverlay({ open, onOpenChange }: LoginOverlayProps) {
             setError("Email ou mot de passe incorrect");
         } finally {
             setIsSubmitting(false);
+        }
+    }
+
+    async function handleForgotPassword() {
+        setError(null);
+        setInfo(null);
+
+        if (!email.trim()) {
+            setError("Saisissez votre email pour recevoir le lien de réinitialisation.");
+            return;
+        }
+
+        setIsResetSubmitting(true);
+        try {
+            await requestPasswordReset(email.trim());
+            setInfo("Si un compte existe pour cet email, un lien de réinitialisation a été envoyé.");
+        } catch {
+            setError("Impossible d'envoyer le lien pour le moment. Réessayez plus tard.");
+        } finally {
+            setIsResetSubmitting(false);
         }
     }
 
@@ -68,6 +91,25 @@ export function LoginOverlay({ open, onOpenChange }: LoginOverlayProps) {
                                             placeholder="••••••••"
                                         />
                                     </Field.Root>
+
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        alignSelf="start"
+                                        px={0}
+                                        onClick={handleForgotPassword}
+                                        loading={isResetSubmitting}
+                                        disabled={isSubmitting}
+                                    >
+                                        Mot de passe oublié ?
+                                    </Button>
+
+                                    {info && (
+                                        <Text fontSize="sm" color="green.600">
+                                            {info}
+                                        </Text>
+                                    )}
 
                                     {error && (
                                         <Text fontSize="sm" color="red.500">
