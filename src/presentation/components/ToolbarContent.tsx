@@ -67,6 +67,9 @@ export function ToolbarContent({ associationName, onOpenDrawer }: ToolbarProps) 
         <Text fontWeight="bold" fontSize="md" truncate onClick={onOpenDrawer}>
           {associationName}
         </Text>
+        <Text fontSize="xs" color="fg.muted" userSelect="none">
+          v1.0
+        </Text>
       </Flex>
 
       <Flex>
