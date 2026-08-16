@@ -33,7 +33,7 @@ export function SidebarContent({ user, onNavigate }: {
   ]
   const divers = [
     { label: "Actualités", to: "/news", icon: LuNewspaper },
-    { label: "Membres", to: "/members", icon: LuNewspaper }
+    { label: "Membres", to: "/members", icon: LuNewspaper, "protected": user === null }
   ]
   return (
     <Flex h="full" direction="column">
@@ -59,13 +59,16 @@ export function SidebarContent({ user, onNavigate }: {
         <p>Divers</p>
 
         {divers.map((item) => (
-          <NavLink key={item.to} to={item.to} onClick={onNavigate}>
+          <NavLink key={item.to} to={item.to} onClick={onNavigate}
+            style={item.protected ? { pointerEvents: "none" } : undefined}
+          >
             <Flex
               align="center"
               gap={3}
               px={3}
               py={2}
               borderRadius="sm"
+              opacity={item.protected ? 0.4 : 1}
             >
               <item.icon size={18} />
               <Text fontWeight="medium">{item.label}</Text>
